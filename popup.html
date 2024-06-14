@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Details Storage</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <h1>Details Storage</h1>
+  <form id="detailsForm">
+    <input type="hidden" id="detailId">
+    <label for="topic">Topic:</label><br>
+    <input type="text" id="topic" name="topic"><br>
+    <label for="description">Description:</label><br>
+    <textarea id="description" name="description"></textarea><br>
+    <label for="date">Date (optional):</label><br>
+    <input type="date" id="date" name="date"><br>
+    <label for="category">Category (optional):</label><br>
+    <input type="text" id="category" name="category"><br><br>
+    <input type="submit" value="Save">
+    <button type="button" id="updateBtn" style="display:none;">Update</button>
+  </form>
+  <div id="status"></div>
+  <h2>Saved Details</h2>
+  <div id="savedDetails" class="scrollbar"></div>
+  <script src="popup.js"></script>
+</body>
+</html>
