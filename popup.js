@@ -1,14 +1,35 @@
 document.addEventListener("DOMContentLoaded", function () {
+  const autofillBtn = document.getElementById("autofillBtn");
   const form = document.getElementById("detailsForm");
   const statusDiv = document.getElementById("status");
   const savedDetailsDiv = document.getElementById("savedDetails");
   const updateBtn = document.getElementById("updateBtn");
   let editingIndex = null;
+  const body = document.body;
+  const darkModeToggle = document.getElementById("darkModeToggle");
+
+  // Check if dark mode preference is stored and apply it
+  chrome.storage.sync.get("darkMode", function (result) {
+    if (result.darkMode) {
+      body.classList.add("dark-mode");
+    }
+  });
+
+  darkModeToggle.addEventListener("click", function () {
+    body.classList.toggle("dark-mode");
+
+    // Store dark mode preference
+    const darkModeEnabled = body.classList.contains("dark-mode");
+    chrome.storage.sync.set({ darkMode: darkModeEnabled });
+
+    // Update saved details display for dark mode
+    const savedDetailsDiv = document.getElementById("savedDetails");
+    savedDetailsDiv.classList.toggle("dark-mode");
+  });
 
   function displayDetailsByCategory(details) {
     savedDetailsDiv.innerHTML = "";
 
-    // Group details by category
     const detailsByCategory = {};
     details.forEach((detail, index) => {
       if (!detailsByCategory[detail.category]) {
@@ -17,7 +38,6 @@ document.addEventListener("DOMContentLoaded", function () {
       detailsByCategory[detail.category].push({ ...detail, index });
     });
 
-    // Display details
     for (const category in detailsByCategory) {
       if (category) {
         const categoryHeader = document.createElement("h3");
@@ -44,7 +64,6 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     }
 
-    // Add event listeners to edit, delete, and copy buttons
     document.querySelectorAll(".editBtn").forEach((button) => {
       button.addEventListener("click", function () {
         const index = this.getAttribute("data-index");
@@ -86,7 +105,6 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  // Load saved details on popup load
   chrome.storage.sync.get(["details"], function (result) {
     const details = result.details || [];
     displayDetailsByCategory(details);
@@ -99,7 +117,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const date = document.getElementById("date").value;
     const category = document.getElementById("category").value;
 
-    // Check if at least topic and description are filled
     if (topic && description) {
       chrome.storage.sync.get(["details"], function (result) {
         let details = result.details || [];
@@ -131,7 +148,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const category = document.getElementById("category").value;
     const index = document.getElementById("detailId").value;
 
-    // Check if at least topic and description are filled
     if (topic && description) {
       chrome.storage.sync.get(["details"], function (result) {
         let details = result.details || [];
@@ -154,5 +170,20 @@ document.addEventListener("DOMContentLoaded", function () {
       statusDiv.textContent =
         "Please fill in required fields (Topic, Description).";
     }
+  });
+
+  autofillBtn.addEventListener("click", function () {
+    chrome.storage.sync.get(["details"], function (result) {
+      const details = result.details || [];
+      chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+        chrome.tabs.sendMessage(
+          tabs[0].id,
+          { action: "autofillForms", details: details },
+          function (response) {
+            // console.log(response.status);
+          }
+        );
+      });
+    });
   });
 });
