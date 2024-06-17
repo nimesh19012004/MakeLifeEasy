@@ -2,7 +2,7 @@
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   padding: 20px;
-  width: 250px; /* Keep the existing width */
+  width: 275px; /* Keep the existing width */
   background-color: #ffffff;
   color: #333333;
   line-height: 1.6;
@@ -73,6 +73,7 @@ input[type="submit"]:hover, button:hover {
   border: 1px solid #ccc;
   padding: 10px;
   border-radius: 4px;
+  scroll-behavior: smooth; /* Enable smooth scrolling */
 }
 
 .detail {
@@ -82,6 +83,12 @@ input[type="submit"]:hover, button:hover {
   border: 1px solid #ccc;
   border-radius: 4px;
   color: #333333; /* Text color for detail items */
+}
+
+.detail .detail-content {
+  overflow: hidden; /* Hide overflowing content */
+  text-overflow: ellipsis; /* Display ellipsis for overflowing content */
+  white-space: nowrap; /* Prevent text from wrapping to a new line */
 }
 
 .detail button {

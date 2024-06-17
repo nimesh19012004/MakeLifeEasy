@@ -48,17 +48,23 @@ document.addEventListener("DOMContentLoaded", function () {
           const detailDiv = document.createElement("div");
           detailDiv.classList.add("detail");
           detailDiv.innerHTML = `
-            <strong>Topic:</strong> ${detail.topic}<br>
-            <strong>Description:</strong> ${detail.description}<br>
-            ${detail.date ? `<strong>Date:</strong> ${detail.date}<br>` : ""}
-            <button data-index="${detail.index}" class="editBtn">Edit</button>
-            <button data-index="${
-              detail.index
-            }" class="deleteBtn">Delete</button>
-            <button data-description="${
-              detail.description
-            }" class="copyBtn">Copy</button>
-            <hr>`;
+          <div class="detail-content"><strong>Topic:</strong> ${
+            detail.topic
+          }</div>
+          <div class="detail-content"><strong>Description:</strong> ${
+            detail.description
+          }</div>
+          ${
+            detail.date
+              ? `<div><strong>Date:</strong> ${detail.date}</div>`
+              : ""
+          }
+          <button data-index="${detail.index}" class="editBtn">Edit</button>
+          <button data-index="${detail.index}" class="deleteBtn">Delete</button>
+          <button data-description="${
+            detail.description
+          }" class="copyBtn">Copy</button>
+          <hr>`;
           savedDetailsDiv.appendChild(detailDiv);
         });
       }
