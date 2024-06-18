@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Make Life Easy",
   "version": "1.0",
-  "description": "Store details in topic and description format",
+  "description": "User can store,update and copy their stored detail and autofill the any type of form with ease",
   "permissions": ["storage", "activeTab", "scripting"],
   "action": {
     "default_popup": "popup.html",
